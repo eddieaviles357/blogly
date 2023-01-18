@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+DEFAULT_IMG_URL = 'https://images.unsplash.com/photo-1614436163996-25cee5f54290?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1042&q=80'
+
 
 def connect_db(app):
     """ Connect to Database """
@@ -21,7 +23,7 @@ class User(db.Model):
     f_name = db.Column(db.String(15), nullable=False)
     l_name = db.Column(db.String(15), nullable=False)
     img_url = db.Column(db.String(
-        200), default='https://images.unsplash.com/photo-1614436163996-25cee5f54290?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1042&q=80')
+        200), default=DEFAULT_IMG_URL)
 
     def __repr__(self):
         """ User representation """
