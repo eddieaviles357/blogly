@@ -20,9 +20,21 @@ class UserModelTestCase(TestCase):
             "DEBUG_TB_HOSTS": ["dont-show-debug-toolbar"]
         })
         with app.app_context():
+            self.ids = []  # will hold users ids
             db.drop_all()
             db.create_all()
-
+            user = User(f_name="first_name_test",
+                        l_name="last_name_test", img_url="testurl")
+            user2 = User(f_name="first_name_test",
+                         l_name="last_name_test", img_url="testurl")
+            db.session.add(user)
+            db.session.add(user2)
+            # commit to test database
+            db.session.commit()
+            # append user ids
+            self.ids.append(user.id)
+            self.ids.append(user2.id)
+            # delete Users
             User.query.delete()
 
     def tearDown(self):
@@ -37,17 +49,9 @@ class UserModelTestCase(TestCase):
             user.greet(), f"Hi my name is {user.f_name} {user.l_name}!")
 
     def test_get_all_users_by_first_name(self):
-        # user = User(f_name="UserTest", l_name="lastnameuser")
-        # user.feed(5)
-        # self.assertEquals(user.hunger, 5)
-
-        # user.feed(999)
-        # self.assertEquals(user.hunger, 0)
-
-        # def test_get_by_species(self):
-        #     user = User(f_name="UserTest", l_name="lastnameuser")
-        #     db.session.add(user)
-        #     db.session.commit()
-
-        # dogs = User.get_by_species('dog')
-        # self.assertEquals(dogs, [user])
+        with app.app_context():
+            # get all users form test database
+            users = User.query.all()
+            # get all users using User class method
+            users_list = User.get_all_users_by_first_name(users[0].f_name)
+            self.assertEqual(users, users_list)
