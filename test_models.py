@@ -21,6 +21,7 @@ class UserModelTestCase(TestCase):
         })
         with app.app_context():
             self.ids = []  # will hold users ids
+
             db.drop_all()
             db.create_all()
             user = User(f_name="first_name_test",
@@ -43,15 +44,36 @@ class UserModelTestCase(TestCase):
             db.session.rollback()
 
     def test_greet(self):
+        """ Test User greet method """
         user = User(f_name="Ed", l_name="Aviles")
 
         self.assertEqual(
             user.greet(), f"Hi my name is {user.f_name} {user.l_name}!")
 
     def test_get_all_users_by_first_name(self):
+        """ Test class method get_all_users_by_first_name """
         with app.app_context():
             # get all users form test database
             users = User.query.all()
             # get all users using User class method
             users_list = User.get_all_users_by_first_name(users[0].f_name)
+            self.assertEqual(users, users_list)
+
+    def test_get_all_users_by_last_name(self):
+        """ Test class method get_all_users_by_last_name """
+        with app.app_context():
+            # get all users form test database
+            users = User.query.all()
+            # get all users using User class method
+            users_list = User.get_all_users_by_last_name(users[0].l_name)
+            self.assertEqual(users, users_list)
+
+    def test_get_all_users_by_default_image_url(self):
+        """ Test class method get_all_users_by_default_image_url """
+        with app.app_context():
+            # get all users form test database
+            users = User.query.all()
+            # get all users using User class method
+            users_list = User.get_all_users_by_default_image_url(
+                users[0].img_url)
             self.assertEqual(users, users_list)
