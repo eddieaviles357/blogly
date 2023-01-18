@@ -1,0 +1,50 @@
+*,
+*::after,
+*::before {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    padding: 15px;
+    background-color: beige;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: inherit;
+}
+.btn {
+    padding: 3px;
+    cursor: pointer;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 3px;
+    font-size: 14px;
+    color: white;
+    box-shadow: 0px 10px 20px -7px black;
+}
+
+.flash-msg {
+    list-style: none;
+    width: 100%;
+    height: auto;
+}
+.error,
+.success {
+    color: white;
+    padding: 10px;
+}
+
+.error {
+    background-color: red;
+}
+
+.success {
+    background-color: rgb(47, 217, 47);
+}

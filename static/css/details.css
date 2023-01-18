@@ -1,0 +1,49 @@
+hr {
+    margin: 10px 0;
+}
+
+.user-details {
+    display: flex;
+    width: 500px;
+    padding: 20px;
+    border-radius: 6px;
+    border: 3px solid black;
+    background-color: white;
+}
+
+.user-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-right: 30px;
+    object-fit: cover;
+    /* object-position: top; */
+    border: 3px solid gainsboro;
+}
+
+.user-name {
+    margin: 5px 0;
+    font-size: 40px;
+}
+
+div .user-modify {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.user-buttons {
+    display: flex;
+    justify-content: flex-start;
+}
+.btn-edit {
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: rgb(37, 71, 222);
+}
+
+.btn-delete {
+    margin: 5px;
+    padding: 5px 10px;
+    background-color: red;
+}

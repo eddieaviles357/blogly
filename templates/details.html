@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block link %}
+    <link rel="stylesheet" href="/static/css/details.css">
+{% endblock %}
+
+{% block title %} User Details {% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-msg">
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<h1>User Details</h1>
+<hr>
+<div class="user-details">
+    <img class="user-img" src="{{user.img_url}}" alt="User Profile">
+    <div class="user-modify">
+        <div class="user-name">{{ user.f_name }}&nbsp;{{ user.l_name }}</div>
+        <div class="user-buttons">
+            <a class="btn btn-edit" href="/users/{{user.id}}/edit">Edit</a>
+            <a class="btn btn-delete" href="/users/{{user.id}}/delete">Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block link %}
+    <link rel="stylesheet" href="/static/css/users.css">
+{% endblock %}
+
+{% block title %} Blogly {% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flash-msg">
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+    <h1>Users</h1>
+    <ul class="users-list">
+    {% for user in users %}
+        <li><a href="/{{ user.id }}"">{{ user.f_name }}&nbsp;{{ user.l_name }}</a>
+        </li>    
+    {% endfor %}
+    </ul>
+    <a href="/users/new" class="btn btn-add-user">Add User</a>
+{% endblock %}
