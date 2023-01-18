@@ -31,17 +31,17 @@ class User(db.Model):
         """ Greet user name and last name """
         return f"Hi my name is {self.f_name} {self.l_name}!"
 
-    # @classmethod
-    # def get_all_users_by_first_name(cls, f_name):
-    #     """ Get all users from database that match first_name """
-    #     return cls.query.filter_by(f_name=f_name).all()
+    @classmethod
+    def get_all_users_by_first_name(cls, f_name):
+        """ Get all users from database that match first_name """
+        return cls.query.filter_by(f_name=f_name).all()
 
-    # @classmethod
-    # def get_all_users_by_last_name(cls, l_name):
-    #     """ Get all users from database that match last_name """
-    #     return cls.query.filter_by(l_name=l_name).all()
+    @classmethod
+    def get_all_users_by_last_name(cls, l_name):
+        """ Get all users from database that match last_name """
+        return cls.query.filter_by(l_name=l_name).all()
 
-    # @classmethod
-    # def get_all_users_by_default_image_url(cls, img_url):
-    #     """ Get all users from database that match default image URL  """
-    #     return cls.query.filter_by(img_url=img_url).all()
+    @classmethod
+    def get_all_users_by_default_image_url(cls, img_url):
+        """ Get all users from database that match default image URL  """
+        return cls.query.filter_by(img_url=img_url).all()
