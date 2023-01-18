@@ -104,3 +104,4 @@ class UserViewsTestCase(TestCase):
             resp = self.client.get(f"/users/{self.user_id}/edit")
             html = resp.get_data(as_text=True)
             print(html)
+            self.assertIn(f"<h1>Edit {self.f_name}'s Profile</h1>", html)
