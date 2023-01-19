@@ -1,5 +1,6 @@
 """Models for Blogly."""
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetimex
 
 db = SQLAlchemy()
 
@@ -23,7 +24,7 @@ class Post(db.Model):
     post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(30), nullable=False)
     content = db.Column(db.String(300), nullable=True)
-    created_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
     # FOREIGN KEY(id) REFERENCES posts (id)
     post_id = db.relationship('User', backref=("posts"))
