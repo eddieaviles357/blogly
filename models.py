@@ -12,6 +12,20 @@ def connect_db(app):
     db.init_app(app)
 
 
+class Post(db.Model):
+    """ Post model """
+    # id
+    # title
+    # content
+    # created_at data+time default to when post is created
+    # FK -> User table ( id )
+    __tablename__ = "posts"
+    post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(30), nullable=False)
+    content = db.Column(db.String(300), nullable=True)
+    created_at = db.Column(db.DateTime)
+
+
 class User(db.Model):
     """ User model """
 
@@ -24,6 +38,8 @@ class User(db.Model):
     l_name = db.Column(db.String(15), nullable=False)
     img_url = db.Column(db.String(
         200), default=DEFAULT_IMG_URL)
+    # FOREIGN KEY(post_id) REFERENCES posts (post_id)
+    post_id = db.Column(db.Integer, db.ForeignKey("posts.post_id"))
 
     def __repr__(self):
         """ User representation """
