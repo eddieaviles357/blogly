@@ -25,6 +25,13 @@ class Post(db.Model):
     content = db.Column(db.String(300), nullable=True)
     created_at = db.Column(db.DateTime)
 
+    # FOREIGN KEY(id) REFERENCES posts (id)
+    post_id = db.relationship('User', backref=("posts"))
+
+    def __repr__(self):
+        """ User representation """
+        return f"<Post {self.post_id} {self.title} {self.content} {self.created_at}>"
+
 
 class User(db.Model):
     """ User model """
@@ -38,8 +45,6 @@ class User(db.Model):
     l_name = db.Column(db.String(15), nullable=False)
     img_url = db.Column(db.String(
         200), default=DEFAULT_IMG_URL)
-    # FOREIGN KEY(post_id) REFERENCES posts (post_id)
-    post_id = db.Column(db.Integer, db.ForeignKey("posts.post_id"))
 
     def __repr__(self):
         """ User representation """
