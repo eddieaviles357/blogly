@@ -1,6 +1,6 @@
 """Models for Blogly."""
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetimex
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -27,7 +27,9 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
 
     # FOREIGN KEY(id) REFERENCES posts (id)
-    post_id = db.relationship('User', backref=("posts"))
+    posts_id = db.Column(db.Integer, db.ForeignKey(
+        "users.id"), nullable=True)
+    user = db.relationship('User', backref=("posts"))
 
     def __repr__(self):
         """ User representation """
@@ -45,7 +47,9 @@ class User(db.Model):
     f_name = db.Column(db.String(15), nullable=False)
     l_name = db.Column(db.String(15), nullable=False)
     img_url = db.Column(db.String(
-        200), default=DEFAULT_IMG_URL)
+        200), nullable=False, default=DEFAULT_IMG_URL)
+    # backreferences to users
+    # users = db.relationship('Post', backref=("users"))
 
     def __repr__(self):
         """ User representation """
