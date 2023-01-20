@@ -14,6 +14,7 @@ app.config["SECRET_KEY"] = "FlaskAndSQLareBeast"
 app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 connect_db(app)
+# db.drop_all()
 # db.create_all()
 
 # debug app tool
@@ -111,3 +112,27 @@ def delete_user(user_id):
     # deletion successful message
     flash("Deleted User", "error")
     return redirect("/")
+
+# GET /users/[user-id]/posts/new
+# Show form to add a post for that user.
+
+
+# POST /users/[user-id]/posts/new
+# Handle add form; add post and redirect to the user detail page.
+
+
+# GET /posts/[post-id]
+# Show a post.
+# Show buttons to edit and delete the post.
+
+
+# GET /posts/[post-id]/edit
+# Show form to edit a post, and to cancel (back to user page).
+
+
+# POST /posts/[post-id]/edit
+# Handle editing of a post. Redirect back to the post view.
+
+
+# POST /posts/[post-id]/delete
+# Delete the post.
