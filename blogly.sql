@@ -2,7 +2,8 @@
 -- psql < blogly.sql
 
 DROP DATABASE IF EXISTS blogly;
-
+DROP TABLE if exists users cascade;
+DROP TABLE if exists posts cascade;
 CREATE DATABASE blogly;
 
 \c blogly
@@ -12,7 +13,7 @@ CREATE TABLE users
   id SERIAL PRIMARY KEY,
   f_name VARCHAR(20) NOT NULL,
   l_name VARCHAR(20) NOT NULL,
-  img_url VARCHAR(200)
+  img_url VARCHAR(200) NOT NULL
 );
 
 CREATE TABLE posts
@@ -20,8 +21,8 @@ CREATE TABLE posts
   id SERIAL PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   content VARCHAR(300),
-  created_at TIMESTAMP,
-  user_id INTEGER REFERENCES users
+  created_at TIMESTAMP NOT NULL,
+  user_id INTEGER REFERENCES users ON DELETE CASCADE
 );
 
 INSERT INTO users (f_name,l_name,img_url) 
