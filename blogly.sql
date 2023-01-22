@@ -2,8 +2,6 @@
 -- psql < blogly.sql
 
 DROP DATABASE IF EXISTS blogly;
-DROP TABLE if exists users cascade;
-DROP TABLE if exists posts cascade;
 CREATE DATABASE blogly;
 
 \c blogly
@@ -20,7 +18,7 @@ CREATE TABLE posts
 (
   id SERIAL PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
-  content VARCHAR(300),
+  content VARCHAR(300) NOT NULL,
   created_at TIMESTAMP NOT NULL,
   user_id INTEGER REFERENCES users ON DELETE CASCADE
 );
@@ -37,7 +35,8 @@ VALUES
 INSERT INTO posts (title, content, created_at, user_id)
 VALUES
 ('titleone', 'just testing this table', '2022-04-20 09:00:00',1),
-('secondtitle', 'sencode test nad i dont know hwat im doing', '2021-04-20 09:22:00',1),
+('titleone', 'sencode test nad i dont know hwat im doing', '2021-04-20 09:22:00',1),
 ('hahah', 'just laughing away', '2021-02-04 04:05:00',2),
-('too much information', 'tmi will be the death of me', '2019-02-04 04:05:00',3),
-('lolololo', 'lol is laugh out loud and doing many times', '2020-04-20 10:00:00',4);
+('hahah', 'tmi will be the death of me', '2019-02-04 04:05:00',3),
+('lolololo', 'lol is laugh out loud and doing many times', '2020-04-20 10:00:00',4),
+('lolololo', 'psting is hard', '2020-04-20 10:00:00',4);
