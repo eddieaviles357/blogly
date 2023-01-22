@@ -1,6 +1,4 @@
-hr {
-    margin: 10px 0;
-}
+
 
 .user-details {
     display: flex;
@@ -14,7 +12,6 @@ hr {
 .user-img {
     width: 120px;
     height: 120px;
-    border-radius: 50%;
     margin-right: 30px;
     object-fit: cover;
     /* object-position: top; */
@@ -36,14 +33,7 @@ div .user-modify {
     display: flex;
     justify-content: flex-start;
 }
-.btn-edit {
-    margin: 5px;
-    padding: 5px 10px;
-    background-color: rgb(37, 71, 222);
-}
 
-.btn-delete {
-    margin: 5px;
-    padding: 5px 10px;
-    background-color: red;
+.user-post-header {
+    font-size: 30px;
 }
