@@ -3,7 +3,7 @@
 *::before {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
+    box-sizing: content-box;
 }
 
 body {
@@ -19,6 +19,19 @@ a {
     cursor: pointer;
     color: inherit;
 }
+
+hr {
+    margin: 10px 0;
+}
+
+ul {
+    margin: 15px 15px 25px;
+}
+
+.flash-msg {
+    margin: 0px!important;
+}
+
 .btn {
     padding: 3px;
     cursor: pointer;
@@ -41,10 +54,43 @@ a {
     padding: 10px;
 }
 
-.error {
+.error,
+.btn-delete {
     background-color: red;
 }
 
 .success {
     background-color: rgb(47, 217, 47);
 }
+.btn-edit,
+.btn-delete,
+.btn-add-post,
+.btn-add-user,
+.btn-save-user,
+.btn-cancel,
+.btn-save-post {
+    margin: 10px 5px;
+    padding: 10px;
+    font-weight: 400;
+}
+
+.btn-add-post,
+.btn-edit {
+    background-color: rgb(37, 71, 222);
+}
+
+.btn-add-post {
+    background-color: rgb(37, );
+}
+
+.btn-add-user,
+.btn-save-user,
+.btn-save-post {
+    background-color: rgb(33, 155, 52);
+}
+
+.btn-cancel {
+    background-color: rgb(190, 190, 190);
+    color: black;
+}
+
