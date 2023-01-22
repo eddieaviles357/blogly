@@ -1,24 +1,4 @@
 
-.users-list {
-    margin: 15px;
-}
-
-.btn-add-user,
-.btn-save-user {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: rgb(33, 155, 52);
-    color: white;
-    font-weight: 400;
-}
-.btn-cancel {
-    margin: 10px 0;
-    padding: 10px;
-    background-color: white;
-    color: black;
-    font-weight: 400;
-}
-
 form {
     margin-top: 20px;
 }
