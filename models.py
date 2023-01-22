@@ -1,6 +1,5 @@
 """Models for Blogly."""
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -21,19 +20,23 @@ class Post(db.Model):
     # created_at data+time default to when post is created
     # FK -> User table ( id )
     __tablename__ = "posts"
-    post_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(30), nullable=False)
-    content = db.Column(db.String(300), nullable=True)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    content = db.Column(db.String(300), nullable=False)
+    # created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    created_at = db.Column(db.DateTime, nullable=False,
+                           server_default=db.func.now())
 
     # FOREIGN KEY(id) REFERENCES posts (id)
-    posts_id = db.Column(db.Integer, db.ForeignKey(
+    user_id = db.Column(db.Integer, db.ForeignKey(
         "users.id"), nullable=True)
-    user = db.relationship('User', backref=("posts"))
+
+    user = db.relationship('User')
 
     def __repr__(self):
         """ User representation """
-        return f"<Post {self.post_id} {self.title} {self.content} {self.created_at}>"
+        return f"<Post id={self.id}, title={self.title}, content={self.content}, created_at={self.created_at}>"
 
 
 class User(db.Model):
@@ -48,12 +51,12 @@ class User(db.Model):
     l_name = db.Column(db.String(15), nullable=False)
     img_url = db.Column(db.String(
         200), nullable=False, default=DEFAULT_IMG_URL)
-    # backreferences to users
-    # users = db.relationship('Post', backref=("users"))
+    # Delete all posts when owner of Post is Deleted
+    post = db.relationship("Post", cascade="all, delete-orphan")
 
     def __repr__(self):
         """ User representation """
-        return f"<User {self.id} {self.f_name} {self.l_name} {self.img_url}>"
+        return f"<User id={self.id}, f_name={self.f_name}, l_name={self.l_name}, img_url={self.img_url}>"
 
     def greet(self):
         """ Greet user name and last name """
