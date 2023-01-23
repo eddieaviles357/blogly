@@ -68,11 +68,12 @@ class UserViewsTestCase(TestCase):
     def test_list_users(self):
         """ Test Home route """
         with self.client:
+            path = '/'
             # will redirect route
-            resp = self.client.get('/')
+            resp = self.client.get(path)
             self.assertEqual(resp.status_code, 302)
             # allow redirect
-            resp = self.client.get('/', follow_redirects=True)
+            resp = self.client.get(path, follow_redirects=True)
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
 
@@ -147,6 +148,21 @@ class UserViewsTestCase(TestCase):
             # Has post title in title tag
             self.assertIn(f"<title> {self.title} </title>", html)
             # Has post content inside tag element
-            post = Post.query.get_or_404(self.post_id)
             self.assertIn(
                 f'<div class="post-content">{self.content}</div>', html)
+
+    def test_delete_post(self):
+        """ Test for deleting a users post """
+        with app.app_context():
+            path = f"/posts/{self.post_id}/delete"
+            # should have 2 post
+            posts = Post.query.all()
+            self.assertEqual(len(posts), 2)
+            # once we hit route user post should be decreased by 1
+            resp = self.client.post(path, follow_redirects=True)
+            html = resp.get_data(as_text=True)
+            # update posts
+            posts = Post.query.all()
+            self.assertEqual(resp.status_code, 200)
+            # post length should be decreased by one
+            self.assertEqual(len(posts), 1)
