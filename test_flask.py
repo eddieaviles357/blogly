@@ -107,12 +107,14 @@ class UserViewsTestCase(TestCase):
                            "img-url": "https://fakehost.com"}
             resp = self.client.post(
                 "/users/new", data=user_tester, follow_redirects=True)
-
             html = resp.get_data(as_text=True)
 
             self.assertEqual(resp.status_code, 200)
             self.assertIn(
                 f'<div class="user-name">{user_tester["first-name"]}&nbsp;{user_tester["last-name"]}</div>', html)
+            users = User.query.all()
+            # User list should be increased by 1
+            self.assertEqual(len(users), 2)
 
     def test_edit_user(self):
         """ Test edit route """
@@ -153,10 +155,11 @@ class UserViewsTestCase(TestCase):
 
     def test_delete_post(self):
         """ Test for deleting a users post """
-        with app.app_context():
+        with self.client:
+            with app.app_context():
+                posts = Post.query.all()
             path = f"/posts/{self.post_id}/delete"
             # should have 2 post
-            posts = Post.query.all()
             self.assertEqual(len(posts), 2)
             # once we hit route user post should be decreased by 1
             resp = self.client.post(path, follow_redirects=True)
