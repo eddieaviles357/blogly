@@ -41,6 +41,10 @@ class UserViewsTestCase(TestCase):
                         created_at="2022-04-20 09:00:00", user_id=1)
             db.session.add(post)
             db.session.commit()
+            p = Post(title="Wonderful", content="testing is needed",
+                     created_at="2020-04-20 10:00:00", user_id=1)
+            db.session.add(p)
+            db.session.commit()
             # db.session.commit() will return user.id and post.id
             self.user_id = user.id
             self.f_name = user.f_name
@@ -56,6 +60,10 @@ class UserViewsTestCase(TestCase):
         """Clean up any fouled transaction."""
         with app.app_context():
             db.session.rollback()
+
+    # **********************************
+    # *********** Users route **********
+    # **********************************
 
     def test_list_users(self):
         """ Test Home route """
@@ -110,21 +118,35 @@ class UserViewsTestCase(TestCase):
         with self.client:
             resp = self.client.get(f"/users/{self.user_id}/edit")
             html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+            # has users first name in header tag
             self.assertIn(f"<h1>Edit {self.f_name}'s Profile</h1>", html)
+
+    # **************************************
+    # ************** Post routes ***********
+    # **************************************
 
     def test_get_add_post_form(self):
         """ Test for getting post form """
         with self.client:
             resp = self.client.get(f"/users/{self.user_id}/posts/new")
             html = resp.get_data(as_text=True)
-            print(html)
+            self.assertEqual(resp.status_code, 200)
             # Add Post title from html
             self.assertIn("<title> Add Post </title>", html)
             # make sure users first and last name are displayed
             self.assertIn(
                 f"<h1>Add Post for {self.f_name} {self.l_name}</h1>", html)
 
-    # def test_get_post(self):
-    #     """ Test for getting post """
-    #     with self.client:
-    #         resp = self.client.get()
+    def test_get_post(self):
+        """ Test for getting post """
+        with self.client:
+            resp = self.client.get(f"/posts/{self.post_id}")
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+            # Has post title in title tag
+            self.assertIn(f"<title> {self.title} </title>", html)
+            # Has post content inside tag element
+            post = Post.query.get_or_404(self.post_id)
+            self.assertIn(
+                f'<div class="post-content">{self.content}</div>', html)
