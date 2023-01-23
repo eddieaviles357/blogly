@@ -3,7 +3,7 @@
 from unittest import TestCase
 
 from app import app
-from models import db, User
+from models import db, User, Post
 
 
 class UserModelTestCase(TestCase):
@@ -24,18 +24,29 @@ class UserModelTestCase(TestCase):
 
             db.drop_all()
             db.create_all()
-            user = User(f_name="first_name_test",
-                        l_name="last_name_test", img_url="testurl")
-            user2 = User(f_name="first_name_test",
-                         l_name="last_name_test", img_url="testurl")
-            db.session.add(user)
-            db.session.add(user2)
+            user = User(f_name="west",
+                        l_name="east", img_url="number1")
+            user2 = User(f_name="west",
+                         l_name="east", img_url="number1")
+            db.session.add_all([user, user2])
             # commit to test database
             db.session.commit()
+
             # append user ids
             self.ids.append(user.id)
             self.ids.append(user2.id)
-            # delete Users
+
+            # add tester post
+            post = Post(title="hello", content="world",
+                        created_at="2021-04-20 09:22:00", user_id=self.ids[0])
+            post1 = Post(title="hello", content="world",
+                         created_at="2020-04-20 10:22:00", user_id=self.ids[0])
+            db.session.add_all([post, post1])
+            db.session.commit()
+            self.p_title = post.title
+            # delete post first
+            Post.query.delete()
+            # delete Users last
             User.query.delete()
 
     def tearDown(self):
@@ -43,6 +54,9 @@ class UserModelTestCase(TestCase):
         with app.app_context():
             db.session.rollback()
 
+    # *******************************************
+    # *************** User test *****************
+    # *******************************************
     def test_greet(self):
         """ Test User greet method """
         user = User(f_name="Ed", l_name="Aviles")
@@ -57,7 +71,7 @@ class UserModelTestCase(TestCase):
             users = User.query.all()
             # get all users using User class method
             users_list = User.get_all_users_by_first_name(users[0].f_name)
-            self.assertEqual(users, users_list)
+        self.assertEqual(users, users_list)
 
     def test_get_all_users_by_last_name(self):
         """ Test class method get_all_users_by_last_name """
@@ -66,7 +80,7 @@ class UserModelTestCase(TestCase):
             users = User.query.all()
             # get all users using User class method
             users_list = User.get_all_users_by_last_name(users[0].l_name)
-            self.assertEqual(users, users_list)
+        self.assertEqual(users, users_list)
 
     def test_get_all_users_by_default_image_url(self):
         """ Test class method get_all_users_by_default_image_url """
@@ -76,4 +90,21 @@ class UserModelTestCase(TestCase):
             # get all users using User class method
             users_list = User.get_all_users_by_default_image_url(
                 users[0].img_url)
-            self.assertEqual(users, users_list)
+        self.assertEqual(users, users_list)
+
+    # *******************************************
+    # *************** Post test *****************
+    # *******************************************
+    def test_get_all_posts_by_user(self):
+        """ Test for all posts by user """
+        with app.app_context():
+            posts = Post.get_all_posts_by_user(self.ids[0])
+        # should only be 2 posts by user with id 1
+        self.assertEqual(2, len(posts))
+
+    def test_get_all_posts_by_title(self):
+        """ Test getting all posts by title """
+        with app.app_context():
+            posts = Post.get_all_posts_by_title(self.p_title)
+        # should be 2 posts with the same title
+        self.assertEqual(len(posts), 2)

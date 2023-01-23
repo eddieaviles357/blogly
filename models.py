@@ -38,6 +38,16 @@ class Post(db.Model):
         """ User representation """
         return f"<Post id={self.id}, title={self.title}, content={self.content}, created_at={self.created_at}>"
 
+    @classmethod
+    def get_all_posts_by_user(cls, id):
+        """ Get all posts from user """
+        return cls.query.filter_by(user_id=id).all()
+
+    @classmethod
+    def get_all_posts_by_title(cls, title):
+        """ Get all posts by title """
+        return cls.query.filter_by(title=title).all()
+
 
 class User(db.Model):
     """ User model """
