@@ -3,7 +3,7 @@
 from unittest import TestCase
 
 from app import app
-from models import db, User
+from models import db, User, Post
 
 # Use test database and not app SQL
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_test'
@@ -37,12 +37,20 @@ class UserViewsTestCase(TestCase):
                         l_name="last_name_test", img_url="testurl")
 
             db.session.add(user)
+            post = Post(title="testing", content="content test",
+                        created_at="2022-04-20 09:00:00", user_id=1)
+            db.session.add(post)
             db.session.commit()
-            # db.session.commit() will return user.id
+            # db.session.commit() will return user.id and post.id
             self.user_id = user.id
             self.f_name = user.f_name
             self.l_name = user.l_name
             self.img_url = user.img_url
+
+            self.post_id = post.id
+            self.title = post.title
+            self.content = post.content
+            self.created_at = post.created_at
 
     def tearDown(self):
         """Clean up any fouled transaction."""
@@ -79,11 +87,10 @@ class UserViewsTestCase(TestCase):
                 '<a class="btn btn-edit" href="/users/1/edit">Edit</a>', html)
             # check if Delete button is displayed
             self.assertIn(
-                '<a class="btn btn-delete" href="/users/1/delete">Delete</a>', html)
+                '<button class="btn btn-delete">Delete</button>', html)
 
     def test_add_user(self):
         """ Test adding a User """
-        # with app.test_client() as client:
         with self.client:
             # create fake form data
             user_tester = {"first-name": "west",
@@ -103,5 +110,21 @@ class UserViewsTestCase(TestCase):
         with self.client:
             resp = self.client.get(f"/users/{self.user_id}/edit")
             html = resp.get_data(as_text=True)
-            print(html)
             self.assertIn(f"<h1>Edit {self.f_name}'s Profile</h1>", html)
+
+    def test_get_add_post_form(self):
+        """ Test for getting post form """
+        with self.client:
+            resp = self.client.get(f"/users/{self.user_id}/posts/new")
+            html = resp.get_data(as_text=True)
+            print(html)
+            # Add Post title from html
+            self.assertIn("<title> Add Post </title>", html)
+            # make sure users first and last name are displayed
+            self.assertIn(
+                f"<h1>Add Post for {self.f_name} {self.l_name}</h1>", html)
+
+    # def test_get_post(self):
+    #     """ Test for getting post """
+    #     with self.client:
+    #         resp = self.client.get()
