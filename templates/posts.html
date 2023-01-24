@@ -14,11 +14,11 @@
   <div class="post-content">{{ post.content }}</div>
   <div class="post-btn-container">
     <form action="/posts/{{post.id}}/delete" method="POST">
-      <a class="btn btn-cancel" href="/{{post.user.id}}">Cancel</a>
+      <a class="btn btn-cancel" href="/{{post.users.id}}">Cancel</a>
       <a class="btn btn-edit" href="/posts/{{post.id}}/edit">Edit</a>
       <button class="btn btn-delete">Delete</button>
     </form>
-    <div class="post-by"><em>By {{ post.user.f_name }} {{ post.user.l_name }}</em><br><em>Created {{ date }}</em></div>
+    <div class="post-by"><em>By {{ post.users.f_name }} {{ post.users.l_name }}</em><br><em>Created {{ date }}</em></div>
   </div>
 </div>
 {% endblock %}
