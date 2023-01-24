@@ -9,11 +9,11 @@
 <h1>Edit Post {{ post.title }}</h1>
 <form action="/post/{{post.id}}/edit" method="POST">
     <label for="title">Title:
-        <input type="text" name="title" id="title" required>
+        <input type="text" name="title" id="title" maxlength="30" required>
     </label>
     <label for="content">
         <span class="content-textarea">Content:</span>
-        <textarea type="text" name="content" id="content" required></textarea>
+        <textarea type="text" name="content" id="content" maxlength="300" required></textarea>
     </label>
     <a class="btn btn-cancel" href="/{{post.users.id}}">Cancel</a>
     <button class="btn btn-save-user">Save</button>

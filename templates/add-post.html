@@ -12,11 +12,11 @@
 <hr>
 <form action="/users/{{user.id}}/posts/new" method="POST">
     <label for="title">Title:
-        <input type="text" name="title" id="title" required>
+        <input type="text" name="title" id="title" maxlength="30" required>
     </label>
     <label for="content">
         <span class="content-textarea">Content:</span>
-        <textarea type="text" name="content" id="content" required></textarea>
+        <textarea type="text" name="content" id="content" maxlength="300" required></textarea>
     </label>
     <a class="btn btn-cancel" href="/{{user.id}}">Cancel</a>
     <button class="btn btn-save-post">Add</button>
