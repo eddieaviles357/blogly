@@ -32,8 +32,6 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(
         "users.id"), nullable=True)
 
-    user = db.relationship('User')
-
     def __repr__(self):
         """ User representation """
         return f"<Post id={self.id}, title={self.title}, content={self.content}, created_at={self.created_at}>"
@@ -62,7 +60,8 @@ class User(db.Model):
     img_url = db.Column(db.String(
         200), nullable=False, default=DEFAULT_IMG_URL)
     # Delete all posts when owner of Post is Deleted
-    post = db.relationship("Post", cascade="all, delete-orphan")
+    post = db.relationship(
+        "Post", cascade="all, delete-orphan", backref="users")
 
     def __repr__(self):
         """ User representation """
