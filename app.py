@@ -154,6 +154,8 @@ def get_post(post_id):
     """ Render user post """
     post = Post.query.get_or_404(post_id)
     f_date = post.created_at.strftime('%B %d, %Y')
+    # import pdb
+    # pdb.set_trace()
     return render_template("posts.html", post=post, date=f_date)
 
 # GET /posts/[post-id]/edit
@@ -179,7 +181,7 @@ def update_post(post_id):
     db.session.commit()
     # Post updated success message
     flash("Post updated", "success")
-    return redirect(f"/{post.user.id}")
+    return redirect(f"/{post.users.id}")
 
 # POST /posts/[post-id]/delete
 # Delete the post.
