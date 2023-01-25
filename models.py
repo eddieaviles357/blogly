@@ -85,8 +85,24 @@ class User(db.Model):
 class Tag(db.Model):
     """ Tag model """
     __tablename__ = "tags"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    tag_name = db.Column(db.String(30), nullable=False)
+
+    def __repr__(self):
+        return f"<Tag ID: {self.id}, tag_name: {self.tag_name}>"
+
+    @classmethod
+    def get_all_tags_by_tagname(cls, tagname):
+        """ Get all tags matching tagname """
+        return cls.query.filter_by(tag_name=tagname).all()
 
 
 class PostTag(db.Model):
     """ Post and Tag model """
     __tablename__ = "posts_tags"
+
+    post_id = db.Column(db.Integer, db.ForeignKey(
+        "posts.id"), primary_key=True)
+    # could also use text
+    tag_id = db.Column(db.Integer, db.ForeignKey(
+        "tags.id"), primary_key=True)
