@@ -1,0 +1,73 @@
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    font-size: 20px;
+}
+
+input {
+    display: block;
+    height: 30px;
+    min-width: 200px;
+    width: 300px;
+    max-width: 25%;
+    margin: 10px 0 20px 0;
+}
+
+textarea {
+    font-family: inherit;
+    height: 100px;
+    min-width: 200px;
+    width: 300px;
+    max-width: 25%;
+    margin: 10px 0 20px 0;
+}
+
+input,
+input::placeholder,
+textarea {
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+.content-textarea {
+    display: block;
+}
+
+.post-title {
+    text-align: center;
+}
+
+.post-container {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 10px;
+
+    min-width: 60%;
+    max-width: 80%;
+    min-height: 200px;
+    border: 2px solid black;
+    border-radius: 6px;
+
+    background-color: white;
+}
+
+.post-content {
+    word-wrap: break-word;
+    line-height: 23px;
+}
+.post-by {
+    margin: 10px 0;
+    color: gray;
+}
+
+.post-btn-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}

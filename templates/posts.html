@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block link %}
+    <link rel="stylesheet" href="/static/css/post.css">
+{% endblock %}
+
+{% block title %} {{post.title}} {% endblock %}
+
+{% block content %}
+
+<h1 class="post-title">{{post.title}}</h1>
+<hr>
+<div class="post-container">
+  <div class="post-content">{{ post.content }}</div>
+  <div class="post-btn-container">
+    <form action="/posts/{{post.id}}/delete" method="POST">
+      <a class="btn btn-cancel" href="/{{post.users.id}}">Cancel</a>
+      <a class="btn btn-edit" href="/posts/{{post.id}}/edit">Edit</a>
+      <button class="btn btn-delete">Delete</button>
+    </form>
+    <div class="post-by"><em>By {{ post.users.f_name }} {{ post.users.l_name }}</em><br><em>Created {{ date }}</em></div>
+  </div>
+</div>
+{% endblock %}

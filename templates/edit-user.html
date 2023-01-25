@@ -9,13 +9,13 @@
 <h1>Edit {{user.f_name}}'s Profile</h1>
 <form action="/users/{{user.id}}/edit" method="POST">
     <label for="first-name">First Name:
-        <input type="text" name="first-name" id="first-name" placeholder={{user.f_name}} value={{user.f_name}} required>
+        <input type="text" name="first-name" id="first-name" placeholder={{user.f_name}} maxlength="20" value={{user.f_name}} required>
     </label>
     <label for="last-name">Last Name:
-        <input type="text" name="last-name" id="last-name" placeholder={{user.l_name}} value={{user.l_name}} required>
+        <input type="text" name="last-name" id="last-name" placeholder={{user.l_name}} maxlength="20" value={{user.l_name}} required>
     </label>
     <label for="img-url">Img Url:
-        <input type="text" name="img-url" id="img-url" placeholder={{user.img_url}}  value={{user.img_url}} required>
+        <input type="text" name="img-url" id="img-url" placeholder={{user.img_url}} maxlength="200" value={{user.img_url}} required>
     </label>
     <a class="btn btn-cancel" href="/{{user.id}}">Cancel</a>
     <button class="btn btn-save-user">Save</button>

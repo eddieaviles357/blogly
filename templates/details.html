@@ -25,8 +25,19 @@
     <div class="user-modify">
         <div class="user-name">{{ user.f_name }}&nbsp;{{ user.l_name }}</div>
         <div class="user-buttons">
+          <form action="/users/{{user.id}}/delete" method="POST">
             <a class="btn btn-edit" href="/users/{{user.id}}/edit">Edit</a>
-            <a class="btn btn-delete" href="/users/{{user.id}}/delete">Delete</a>
+            <button class="btn btn-delete">Delete</button>
+          </form>
+        </div>
+        <div class="user-post">
+          <span class="user-post-header">Posts</span>
+          <ul>
+            {% for post in user.post %}
+            <li><a href="/posts/{{post.id}}">{{ post.title }}</a></li>
+            {% endfor %}
+          </ul>
+          <a href="/users/{{user.id}}/posts/new" class="btn btn-add-post">Add Post</a>
         </div>
     </div>
 </div>
