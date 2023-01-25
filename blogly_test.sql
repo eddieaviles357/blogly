@@ -33,7 +33,7 @@ CREATE TABLE posts_tags
 (
   post_id INTEGER REFERENCES posts ON DELETE CASCADE,
   tag_id INTEGER REFERENCES tags ON DELETE CASCADE,
-  PRIMARY KEY (post_id, tag_id)
+  CONSTRAINT post_tag PRIMARY KEY (post_id, tag_id)
 );
 
 INSERT INTO users (f_name,l_name,img_url) 
