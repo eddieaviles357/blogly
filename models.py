@@ -90,3 +90,8 @@ class User(db.Model):
 class Tag(db.Model):
     """ Tag model """
     __tablename__ = "tags"
+
+
+class PostTag(db.Model):
+    """ Post and Tag model """
+    __tablename__ = "posts_tags"
