@@ -14,11 +14,6 @@ def connect_db(app):
 
 class Post(db.Model):
     """ Post model """
-    # id
-    # title
-    # content
-    # created_at data+time default to when post is created
-    # FK -> User table ( id )
     __tablename__ = "posts"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
