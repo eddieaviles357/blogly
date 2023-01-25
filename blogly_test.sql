@@ -23,6 +23,19 @@ CREATE TABLE posts
   user_id INTEGER REFERENCES users ON DELETE CASCADE
 );
 
+CREATE TABLE tags
+(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(30) NOT NULL UNIQUE
+);
+
+CREATE TABLE posts_tags
+(
+  post_id INTEGER REFERENCES posts ON DELETE CASCADE,
+  tag_id INTEGER REFERENCES tags ON DELETE CASCADE,
+  PRIMARY KEY (post_id, tag_id)
+);
+
 INSERT INTO users (f_name,l_name,img_url) 
 VALUES 
 ('ed', 'aviles', 'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'), 
@@ -40,3 +53,20 @@ VALUES
 ('hahah', 'tmi will be the death of me', '2019-02-04 04:05:00',3),
 ('lolololo', 'lol is laugh out loud and doing many times', '2020-04-20 10:00:00',4),
 ('lolololo', 'psting is hard', '2020-04-20 10:00:00',4);
+
+INSERT INTO tags (name)
+VALUES 
+('awesome'),
+('cool'),
+('weird'),
+('scary'),
+('funny');
+
+INSERT INTO posts_tags (post_id, tag_id)
+VALUES
+(1, 3),
+(2, 4),
+(3, 1),
+(4, 4),
+(5, 2),
+(6, 5);
