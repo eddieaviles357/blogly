@@ -4,7 +4,7 @@
 # FLASK_ENV deprecated
 from flask_debugtoolbar import DebugToolbarExtension
 from flask import Flask, request, redirect, render_template, flash
-from models import db, connect_db, User, Post
+from models import db, connect_db, User, Post, Tag, PostTag
 from datetime import datetime
 
 app = Flask(__name__)
@@ -196,5 +196,31 @@ def delete_post(post_id):
     # Deleted successful, error is just for styling purpose
     flash("Deleted post", "error")
     return redirect(f"/{post.user_id}")
+
 # ***************************************
+# *************** Tags ******************
 # ***************************************
+
+# GET /tags
+# Lists all tags, with links to the tag detail page.
+
+
+@app.route("/tags")
+def tags():
+    """ Route with all tags """
+    tags = Tag.query.all()
+    return render_template("tags.html", tags=tags)
+
+# GET /tags/[tag-id]
+# Show detail about a tag. Have links to edit form and to delete.
+# GET /tags/new
+# Shows a form to add a new tag.
+
+# POST /tags/new
+# Process add form, adds tag, and redirect to tag list.
+# GET /tags/[tag-id]/edit
+# Show edit form for a tag.
+# POST /tags/[tag-id]/edit
+# Process edit form, edit tag, and redirects to the tags list.
+# POST /tags/[tag-id]/delete
+# Delete a tag.
