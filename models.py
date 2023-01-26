@@ -27,6 +27,9 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(
         "users.id"), nullable=True)
 
+    tag = db.relationship(
+        "Tag", secondary="posts_tags")
+
     def __repr__(self):
         """ User representation """
         return f"<Post id={self.id}, title={self.title}, content={self.content}, created_at={self.created_at}>"
@@ -88,13 +91,11 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tag_name = db.Column(db.String(30), nullable=False)
 
+    post = db.relationship(
+        "Post", secondary="posts_tags")
+
     def __repr__(self):
         return f"<Tag ID: {self.id}, tag_name: {self.tag_name}>"
-
-    @classmethod
-    def get_all_tags_by_tagname(cls, tagname):
-        """ Get all tags matching tagname """
-        return cls.query.filter_by(tag_name=tagname).all()
 
 
 class PostTag(db.Model):
