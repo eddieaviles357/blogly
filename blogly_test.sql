@@ -26,7 +26,7 @@ CREATE TABLE posts
 CREATE TABLE tags
 (
   id SERIAL PRIMARY KEY,
-  name VARCHAR(30) NOT NULL UNIQUE
+  tag_name VARCHAR(30) NOT NULL UNIQUE
 );
 
 CREATE TABLE posts_tags
@@ -54,7 +54,7 @@ VALUES
 ('lolololo', 'lol is laugh out loud and doing many times', '2020-04-20 10:00:00',4),
 ('lolololo', 'psting is hard', '2020-04-20 10:00:00',4);
 
-INSERT INTO tags (name)
+INSERT INTO tags (tag_name)
 VALUES 
 ('awesome'),
 ('cool'),
