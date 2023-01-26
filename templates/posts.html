@@ -14,6 +14,11 @@
   <div class="post-content">{{ post.content }}</div>
   <div class="post-btn-container">
     <form action="/posts/{{post.id}}/delete" method="POST">
+      <div class="post-tags-container">Tags: 
+        {% for tag in post.tag %}
+        <span class="post-tags">{{tag.tag_name}}</span>
+        {% endfor %}
+      </div>
       <a class="btn btn-cancel" href="/{{post.users.id}}">Cancel</a>
       <a class="btn btn-edit" href="/posts/{{post.id}}/edit">Edit</a>
       <button class="btn btn-delete">Delete</button>
