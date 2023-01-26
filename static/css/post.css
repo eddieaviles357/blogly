@@ -71,3 +71,16 @@ textarea {
     justify-content: space-between;
     align-items: flex-end;
 }
+
+.post-tags-container {
+    font-size: 12px;
+    font-weight:600;
+}
+
+.post-tags {
+    border-radius: 5px;
+    color: white;
+    font-weight: initial;
+    background-color: rgb(52, 122, 235);
+    padding: 3px 5px;
+}
