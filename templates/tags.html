@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block link %}
+    <link rel="stylesheet" href="/static/css/tags.css">
+{% endblock %}
+
+{% block title %} Tags {% endblock %}
+
+{% block content %}
+
+<h1 class="post-title">Tags</h1>
+<hr>
+<div>
+    <ul>
+        {% for tag in tags %} 
+        <li><a href="/tags/{{tag.id}}"></a>{{tag.tag_name}}</li>
+        {% endfor %}
+    </ul>
+    <a class="btn btn-add-tag" href="/tags/new">Add Tag</a>
+</div>
+{% endblock %}
