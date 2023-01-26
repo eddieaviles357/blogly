@@ -110,7 +110,7 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     # deletion successful message, error is just for styling purpose
-    flash("Deleted User", "error")
+    flash("User deleted", "error")
     return redirect("/")
 
 
@@ -194,7 +194,7 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     # Deleted successful, error is just for styling purpose
-    flash("Deleted post", "error")
+    flash("Post deleted", "error")
     return redirect(f"/{post.user_id}")
 
 # ***************************************
@@ -213,14 +213,70 @@ def tags():
 
 # GET /tags/[tag-id]
 # Show detail about a tag. Have links to edit form and to delete.
+
+
+@app.route("/tags/<int:tag_id>")
+def tag_details(tag_id):
+    """ Show tag with posts """
+    tag = Tag.query.get_or_404(tag_id)
+    return render_template("tag-details.html", tag=tag)
+
 # GET /tags/new
 # Shows a form to add a new tag.
 
+
+@app.route("/tags/new")
+def get_new_tag_form():
+    """ Get tag form """
+    return render_template("add-tag.html")
+
 # POST /tags/new
 # Process add form, adds tag, and redirect to tag list.
+
+
+@app.route("/tags/new", methods=["POST"])
+def add_tag():
+    """ Add created tag """
+    created_tag = request.form["tag-name"]
+    tag = Tag(tag_name=created_tag)
+    db.session.add(tag)
+    db.session.commit()
+    flash("Tag created", "success")
+    return redirect("/tags")
+
 # GET /tags/[tag-id]/edit
 # Show edit form for a tag.
+
+
+@app.route("/tags/<int:tag_id>/edit")
+def get_edit_tag_form(tag_id):
+    """ Edit tag form """
+    tag = Tag.query.get_or_404(tag_id)
+    return render_template("edit-tag.html", tag=tag)
+
 # POST /tags/[tag-id]/edit
 # Process edit form, edit tag, and redirects to the tags list.
+
+
+@app.route("/tags/<int:tag_id>/edit", methods=["POST"])
+def edit_tag(tag_id):
+    """ Edit tag """
+    tag = Tag.query.get_or_404(tag_id)
+    tag.tag_name = request.form["tag-name"]
+    db.session.commit()
+    flash("Tag updated", "success")
+    return redirect(f"/tags")
+
 # POST /tags/[tag-id]/delete
 # Delete a tag.
+
+
+@app.route("/tags/<int:tag_id>/delete", methods=["POST"])
+def delete_tag(tag_id):
+    """ Delete tag """
+    tag = Tag.query.get_or_404(tag_id)
+    db.session.delete(tag)
+    db.session.commit()
+    # tag removed successful
+    flash("Tag removed", "error")
+    return redirect("/tags")
