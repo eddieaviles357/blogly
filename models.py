@@ -25,10 +25,7 @@ class Post(db.Model):
 
     # FOREIGN KEY(id) REFERENCES posts (id)
     user_id = db.Column(db.Integer, db.ForeignKey(
-        "users.id"), nullable=True)
-
-    tag = db.relationship(
-        "Tag", secondary="posts_tags")
+        "users.id"), nullable=False)
 
     def __repr__(self):
         """ User representation """
@@ -58,7 +55,7 @@ class User(db.Model):
     img_url = db.Column(db.String(
         200), nullable=False, default=DEFAULT_IMG_URL)
     # Delete all posts when owner of Post is Deleted
-    post = db.relationship(
+    posts = db.relationship(
         "Post", cascade="all, delete-orphan", backref="users")
 
     def __repr__(self):
@@ -89,10 +86,10 @@ class Tag(db.Model):
     """ Tag model """
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    tag_name = db.Column(db.String(30), nullable=False)
+    tag_name = db.Column(db.String(30), nullable=False, unique=True)
 
-    post = db.relationship(
-        "Post", secondary="posts_tags")
+    posts = db.relationship(
+        "Post", secondary="posts_tags", backref="tags")
 
     def __repr__(self):
         return f"<Tag ID: {self.id}, tag_name: {self.tag_name}>"
