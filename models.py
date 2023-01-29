@@ -94,6 +94,10 @@ class Tag(db.Model):
     def __repr__(self):
         return f"<Tag ID: {self.id}, tag_name: {self.tag_name}>"
 
+    def get_total_tags(self):
+        """ Get total of all tags """
+        return len(Tag.query.all())
+
 
 class PostTag(db.Model):
     """ Post and Tag model """
