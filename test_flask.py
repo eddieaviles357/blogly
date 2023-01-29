@@ -73,17 +73,30 @@ class UserViewsTestCase(TestCase):
     # *********** Users route **********
     # **********************************
 
-    def test_list_users(self):
+    def test_home(self):
         """ Test Home route """
         with self.client:
-            path = '/users'
-            # allow redirect
+            path = '/'
             resp = self.client.get(path)
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
+            self.assertIn('<h1>Recent Posts</h1>', html)
+            with app.app_context():
+                # check if recent post are being displayed
+                posts = Post.query.all()
+                for post in posts:
+                    self.assertIn(
+                        f'<h3 class="post-header"><a href="/posts/{post.id}">{post.title}</a></h3>', html)
 
+    def test_list_users(self):
+        """ Test Users route """
+        with self.client:
+            path = '/users'
+            resp = self.client.get(path)
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
             self.assertIn(
-                f'<li><a href="/1"">{self.f_name}&nbsp;{self.l_name}</a>', html)
+                f'<li><a href="/1">{self.f_name}&nbsp;{self.l_name}</a>', html)
 
     def test_show_user(self):
         """ Test getting a User by id route"""
@@ -184,6 +197,10 @@ class UserViewsTestCase(TestCase):
             resp = self.client.get("/tags")
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
-            # print(self.tags)
-            # self.assertIn("<title> Add Post </title>", html)
-            # make sure users first and last name are displayed
+            self.assertIn('<h1 class="post-title">Tags</h1>', html)
+            with app.app_context():
+                tags = Tag.query.all()
+                # do all tags get displayed
+                for tag in tags:
+                    self.assertIn(
+                        f'<li><a href="/tags/{tag.id}">{tag.tag_name}</a></li>', html)
