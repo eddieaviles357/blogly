@@ -22,7 +22,7 @@
     <ul class="post-recent">
     {% for idx in range(posts | length) %}
         <li class="post-recent-list">
-            <h3 class="post-header"><a href="/posts/{{ posts[idx].id }}"">{{ posts[idx].title }}</a></h3>
+            <h3 class="post-header"><a href="/posts/{{ posts[idx].id }}">{{ posts[idx].title }}</a></h3>
             <span>{{ posts[idx].content }}</span>
             <div>
                 <div class="post-by">
