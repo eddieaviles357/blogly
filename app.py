@@ -26,8 +26,9 @@ debug = DebugToolbarExtension(app)
 @app.route("/")
 def home():
     """ Home route """
-    return redirect("/users")
-
+    posts = Post.query.order_by(Post.created_at.desc()).limit(5).all()
+    f_date = [post.created_at.strftime('%c') for post in posts]
+    return render_template("index.html", posts=posts, dates=f_date)
 # GET /users
 
 
@@ -35,7 +36,7 @@ def home():
 def get_users():
     """ Get all users """
     users = User.query.all()
-    return render_template("index.html", users=users)
+    return render_template("users.html", users=users)
 
 # GET /users/new
 
@@ -123,7 +124,8 @@ def delete_user(user_id):
 def get_add_post_form(user_id):
     """ Add post form route """
     user = User.query.get_or_404(user_id)
-    return render_template("add-post.html", user=user)
+    tags = Tag.query.all()
+    return render_template("add-post.html", user=user, tags=tags)
 
 
 # POST /users/[user-id]/posts/new
@@ -134,12 +136,15 @@ def add_post(user_id):
     user = User.query.get_or_404(user_id)
     title = request.form["title"].capitalize()
     content = request.form["content"].capitalize()
+    tag_ids = [int(tag_id) for tag_id in request.form.getlist('post-tags')]
+    tags_list = Tag.query.filter(Tag.id.in_(tag_ids)).all()
+
     # create a post with current time
     post = Post(title=title, content=content,
-                created_at=datetime.now(), user_id=user.id)
-
+                created_at=datetime.now(), user_id=user.id, tags=tags_list)
     db.session.add(post)
     db.session.commit()
+
     # Created post successful message
     flash("Created Post", "success")
     return redirect(f"/{user.id}")
@@ -153,9 +158,7 @@ def add_post(user_id):
 def get_post(post_id):
     """ Render user post """
     post = Post.query.get_or_404(post_id)
-    f_date = post.created_at.strftime('%B %d, %Y')
-    # import pdb
-    # pdb.set_trace()
+    f_date = post.created_at.strftime('%c')
     return render_template("posts.html", post=post, date=f_date)
 
 # GET /posts/[post-id]/edit
@@ -166,7 +169,9 @@ def get_post(post_id):
 def get_post_edit_form(post_id):
     """ Edit form route """
     post = Post.query.get_or_404(post_id)
-    return render_template("/edit-post.html", post=post)
+    all_tags = Tag.query.all()
+    print(post.tags)
+    return render_template("/edit-post.html", post=post, all_tags=all_tags)
 
 # POST /posts/[post-id]/edit
 # Handle editing of a post. Redirect back to the post view.
@@ -178,6 +183,11 @@ def update_post(post_id):
     post = Post.query.get_or_404(post_id)
     post.title = request.form["title"]
     post.content = request.form["content"]
+    # handle new tags for post
+    post.tags.clear()
+    post.tags = Tag.query.filter(
+        Tag.id.in_(request.form.getlist('post-tags'))).all()
+    # update post
     db.session.commit()
     # Post updated success message
     flash("Post updated", "success")
@@ -280,3 +290,6 @@ def delete_tag(tag_id):
     # tag removed successful
     flash("Tag removed", "error")
     return redirect("/tags")
+
+# To DO
+# tag details show post assocciated with that tag
