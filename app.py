@@ -290,6 +290,3 @@ def delete_tag(tag_id):
     # tag removed successful
     flash("Tag removed", "error")
     return redirect("/tags")
-
-# To DO
-# tag details show post assocciated with that tag
