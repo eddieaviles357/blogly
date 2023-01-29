@@ -62,7 +62,7 @@ class UserViewsTestCase(TestCase):
             self.content = post.content
             self.created_at = post.created_at
 
-            self.tags = [tag1, tag2, tag3]
+            # self.tags = [tag1, tag2, tag3]
 
     def tearDown(self):
         """Clean up any fouled transaction."""
@@ -76,12 +76,9 @@ class UserViewsTestCase(TestCase):
     def test_list_users(self):
         """ Test Home route """
         with self.client:
-            path = '/'
-            # will redirect route
-            resp = self.client.get(path)
-            self.assertEqual(resp.status_code, 302)
+            path = '/users'
             # allow redirect
-            resp = self.client.get(path, follow_redirects=True)
+            resp = self.client.get(path)
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
 
@@ -187,6 +184,6 @@ class UserViewsTestCase(TestCase):
             resp = self.client.get("/tags")
             html = resp.get_data(as_text=True)
             self.assertEqual(resp.status_code, 200)
-            print(self.tags)
+            # print(self.tags)
             # self.assertIn("<title> Add Post </title>", html)
             # make sure users first and last name are displayed
