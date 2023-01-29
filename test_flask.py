@@ -62,7 +62,13 @@ class UserViewsTestCase(TestCase):
             self.content = post.content
             self.created_at = post.created_at
 
-            # self.tags = [tag1, tag2, tag3]
+            self.tag1_id = tag1.id
+            self.tag2_id = tag2.id
+            self.tag3_id = tag3.id
+
+            self.tag1_name = tag1.tag_name
+            self.tag2_name = tag2.tag_name
+            self.tag3_name = tag3.tag_name
 
     def tearDown(self):
         """Clean up any fouled transaction."""
@@ -204,3 +210,34 @@ class UserViewsTestCase(TestCase):
                 for tag in tags:
                     self.assertIn(
                         f'<li><a href="/tags/{tag.id}">{tag.tag_name}</a></li>', html)
+
+    @app.route("/tags/<int:tag_id>/edit")
+    def test_get_edit_tag_form(self):
+        """ Tst edit tag form """
+        path = f"/tags/{self.tag1_id}/edit"
+        with self.client:
+            resp = self.client.get(path)
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+            self.assertIn('<h1 class="post-title">Edit tag1</h1>', html)
+            # make sure <a> tag is displaying tag id is
+            self.assertIn(
+                f'<a class="btn btn-cancel" href="/tags/{self.tag1_id}">Cancel</a>', html)
+
+    def test_delete_tag(self):
+        """ Test for deleting tags """
+        path = f"/tags/{self.tag1_id}/delete"
+        with app.app_context():
+            tags = Tag.query.all()
+            # get current tag length to compare new length
+            # when path gets hit
+            tag_len = len(tags)
+
+            with self.client:
+                resp = self.client.post(path, follow_redirects=True)
+                html = resp.get_data(as_text=True)
+                # make sure flash message is correctly displaying message
+                self.assertIn('<li class="error">Tag removed</li>', html)
+                tag_len_new = len(Tag.query.all())
+                # should be one less tag
+                self.assertEqual(tag_len-1, tag_len_new)
