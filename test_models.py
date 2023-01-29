@@ -3,7 +3,7 @@
 from unittest import TestCase
 
 from app import app
-from models import db, User, Post
+from models import db, User, Post, Tag
 
 
 class UserModelTestCase(TestCase):
@@ -108,3 +108,13 @@ class UserModelTestCase(TestCase):
             posts = Post.get_all_posts_by_title(self.p_title)
         # should be 2 posts with the same title
         self.assertEqual(len(posts), 2)
+
+    # *******************************************
+    # *************** Tag test *****************
+    # *******************************************
+    def test_get_total_tags(self):
+        """ Test for Tag model count """
+        with app.app_context():
+            count_frm_db = len(Tag.query.all())
+            count = Tag.get_total_tags(self)
+            self.assertEqual(count_frm_db, count)
