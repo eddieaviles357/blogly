@@ -37,3 +37,7 @@ div .user-modify {
 .user-post-header {
     font-size: 30px;
 }
+
+li a {
+    color: blue;
+}

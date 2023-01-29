@@ -9,7 +9,7 @@
 <h1>Edit {{user.f_name}}'s Profile</h1>
 <form action="/users/{{user.id}}/edit" method="POST">
     <label for="first-name">First Name:
-        <input type="text" name="first-name" id="first-name" placeholder={{user.f_name}} maxlength="20" value={{user.f_name}} required>
+        <input type="text" name="first-name" id="first-name" placeholder={{user.f_name}} maxlength="20" value={{user.f_name}} required autofocus="true">
     </label>
     <label for="last-name">Last Name:
         <input type="text" name="last-name" id="last-name" placeholder={{user.l_name}} maxlength="20" value={{user.l_name}} required>

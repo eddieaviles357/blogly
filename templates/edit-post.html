@@ -9,12 +9,26 @@
 <h1>Edit Post {{ post.title }}</h1>
 <form action="/post/{{post.id}}/edit" method="POST">
     <label for="title">Title:
-        <input type="text" name="title" id="title" maxlength="30" required>
+        <input class="input" type="text" name="title" id="title" maxlength="30" required value="{{post.title}}" autofocus="true">
     </label>
     <label for="content">
         <span class="content-textarea">Content:</span>
-        <textarea type="text" name="content" id="content" maxlength="300" required></textarea>
+        <textarea type="text" name="content" id="content" maxlength="300" required>{{post.content}}</textarea>
     </label>
+    <div class="post-tags-checkbox-container">Tags: 
+        {% for tag in all_tags %}
+            <div class="post-tag-wrapper">
+                <input class="post-tags-checkbox" type="checkbox" name="post-tags" id="tag-{{tag.id}}" value="{{tag.id}}" 
+                {% for user_post_tag in post.tags %}
+                    {% if user_post_tag.tag_name == tag.tag_name %}
+                    checked
+                    {% endif %}
+                {% endfor %}
+                >
+                <label class="post-tags" for="tag-{{tag.id}}">{{tag.tag_name}}</label>
+            </div>
+        {% endfor %}
+    </div>
     <a class="btn btn-cancel" href="/{{post.users.id}}">Cancel</a>
     <button class="btn btn-save-user">Save</button>
 </form>

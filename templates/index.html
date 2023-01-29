@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block link %}
-    <link rel="stylesheet" href="/static/css/users.css">
+    <link rel="stylesheet" href="/static/css/post.css">
 {% endblock %}
 
 {% block title %} Blogly {% endblock %}
@@ -18,12 +18,26 @@
   {% endif %}
 {% endwith %}
 
-    <h1>Users</h1>
-    <ul>
-    {% for user in users %}
-        <li><a href="/{{ user.id }}"">{{ user.f_name }}&nbsp;{{ user.l_name }}</a>
-        </li>    
+    <h1>Recent Posts</h1>
+    <ul class="post-recent">
+    {% for idx in range(posts | length) %}
+        <li class="post-recent-list">
+            <h3 class="post-header"><a href="/posts/{{ posts[idx].id }}"">{{ posts[idx].title }}</a></h3>
+            <span>{{ posts[idx].content }}</span>
+            <div>
+                <div class="post-by">
+                  <div class="post-recent-tags">Tags: 
+                    {% for tag in posts[idx].tags%}
+                    <a class="post-tags" href="/tags/{{ tag.id }}">{{ tag.tag_name }}</a>
+                    {% endfor %}
+                  </div>
+                  <em>By {{ posts[idx].users.f_name }} {{ posts[idx].users.l_name }}</em>
+                  <br>
+                  <em>Created {{ dates[idx] }}</em>
+                </div>
+            </div>
+        </li> 
     {% endfor %}
     </ul>
-    <a href="/users/new" class="btn btn-add-user">Add User</a>
+    <a href="/users" class="btn btn-add-user btn-post">View All User</a>
 {% endblock %}

@@ -19,7 +19,6 @@
 {% endwith %}
 
 <h1>User Details</h1>
-<hr>
 <div class="user-details">
     <img class="user-img" src="{{user.img_url}}" alt="User Profile">
     <div class="user-modify">
@@ -33,7 +32,7 @@
         <div class="user-post">
           <span class="user-post-header">Posts</span>
           <ul>
-            {% for post in user.post %}
+            {% for post in user.posts %}
             <li><a href="/posts/{{post.id}}">{{ post.title }}</a></li>
             {% endfor %}
           </ul>

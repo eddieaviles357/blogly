@@ -28,6 +28,13 @@ ul {
     margin: 15px 15px 25px;
 }
 
+.home {
+    display: block;
+    font-size: 50px;
+    color: chocolate;
+    text-align: center;
+}
+
 .flash-msg {
     margin: 0px!important;
 }

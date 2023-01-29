@@ -19,13 +19,12 @@
 {% endwith %}
 
 <h1 class="post-title">Tags</h1>
-<hr>
 <div>
     <ul>
         {% for tag in tags %} 
         <li><a href="/tags/{{tag.id}}">{{tag.tag_name}}</a></li>
         {% endfor %}
     </ul>
-    <a class="btn btn-add-tag" href="/tags/new">Add Tag</a>
+    <a autofocus=true class="btn btn-add-tag" href="/tags/new">Add Tag</a>
 </div>
 {% endblock %}

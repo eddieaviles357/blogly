@@ -9,15 +9,22 @@
 {% block content %}
 
 <h1>Add Post for {{user.f_name}} {{user.l_name}}</h1>
-<hr>
 <form action="/users/{{user.id}}/posts/new" method="POST">
     <label for="title">Title:
-        <input type="text" name="title" id="title" maxlength="30" required>
+        <input class="input" type="text" name="title" id="title" maxlength="30" required autofocus="true">
     </label>
     <label for="content">
         <span class="content-textarea">Content:</span>
         <textarea type="text" name="content" id="content" maxlength="300" required></textarea>
     </label>
+    <div class="post-tags-checkbox-container">Tags: 
+    {% for tag in tags %}
+        <div class="post-tag-wrapper">
+            <input class="post-tags-checkbox" type="checkbox" name="post-tags" id="tag-{{tag.id}}" value="{{tag.id}}">
+            <label class="post-tags" for="tag-{{tag.id}}">{{tag.tag_name}}</label>
+        </div>
+    {% endfor %}
+    </div>
     <a class="btn btn-cancel" href="/{{user.id}}">Cancel</a>
     <button class="btn btn-save-post">Add</button>
 </form>
