@@ -3,7 +3,7 @@
 from unittest import TestCase
 
 from app import app
-from models import db, User, Post
+from models import db, User, Post, Tag
 
 # Use test database and not app SQL
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly_test'
@@ -45,6 +45,12 @@ class UserViewsTestCase(TestCase):
                      created_at="2020-04-20 10:00:00", user_id=1)
             db.session.add(p)
             db.session.commit()
+
+            tag1 = Tag(tag_name="tag1")
+            tag2 = Tag(tag_name="tag2")
+            tag3 = Tag(tag_name="tag3")
+            db.session.add_all([tag1, tag2, tag3])
+            db.session.commit()
             # db.session.commit() will return user.id and post.id
             self.user_id = user.id
             self.f_name = user.f_name
@@ -55,6 +61,8 @@ class UserViewsTestCase(TestCase):
             self.title = post.title
             self.content = post.content
             self.created_at = post.created_at
+
+            self.tags = [tag1, tag2, tag3]
 
     def tearDown(self):
         """Clean up any fouled transaction."""
@@ -169,3 +177,16 @@ class UserViewsTestCase(TestCase):
             self.assertEqual(resp.status_code, 200)
             # post length should be decreased by one
             self.assertEqual(len(posts), 1)
+
+    # **************************************
+    # ************** Tags routes ***********
+    # **************************************
+    def test_tags(self):
+        """ Test for tags home page """
+        with self.client:
+            resp = self.client.get("/tags")
+            html = resp.get_data(as_text=True)
+            self.assertEqual(resp.status_code, 200)
+            print(self.tags)
+            # self.assertIn("<title> Add Post </title>", html)
+            # make sure users first and last name are displayed
